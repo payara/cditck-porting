@@ -20,12 +20,12 @@
     <parent>
         <artifactId>weld-core-parent</artifactId>
         <groupId>org.jboss.weld</groupId>
-        <version>5.0.0.SP2</version>
+        <version>6.0.0.Beta1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>weld-payara-runner-tck</artifactId>
-    <name>CDI TCK runner 4.0 for Weld (Payara)</name>
+    <name>CDI TCK runner 4.1 for Weld (Payara)</name>
     <description>Aggregates dependencies and runs the CDI TCK (both standalone and on GlassFish AS)</description>
 
     <licenses>
@@ -56,7 +56,7 @@
         <hk2-api.version>3.0.4</hk2-api.version>
         <jersey.version>3.1.5</jersey.version>
         <jersey-media.version>3.1.2</jersey-media.version>
-        <jakarta-el.version>5.0.0-M1</jakarta-el.version>
+        <glassfish-el.version>5.0.0-M1</glassfish-el.version>
         <arquillian-payara.version>3.0.alpha6</arquillian-payara.version>
         <jersey-hk2.version>3.1.5.payara-p1</jersey-hk2.version>
         <hk2-locator.version>3.0.2</hk2-locator.version>
@@ -153,7 +153,7 @@
         <dependency>
             <groupId>org.glassfish.cdi</groupId>
             <artifactId>gf-cdi-porting-package-tck</artifactId>
-            <version>4.0</version>
+            <version>4.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.weld</groupId>
@@ -230,7 +230,7 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
-            <version>${jakarta-el.version}</version>
+            <version>${glassfish-el.version}</version>
         </dependency>
     </dependencies>
 
@@ -374,47 +374,6 @@
                 </plugins>
             </build>
         </profile>
-
-        <profile>
-            <id>web</id>
-
-            <!-- Pull in the additional TCK artefact and scan it -->
-            <dependencies>
-                <dependency>
-                    <groupId>jakarta.enterprise</groupId>
-                    <artifactId>cdi-tck-web-impl</artifactId>
-                    <version>${cdi.tck.version}</version>
-                    <scope>test</scope>
-                    <exclusions>
-                        <exclusion>
-                            <artifactId>container-se-api</artifactId>
-                            <groupId>org.jboss.arquillian.container</groupId>
-                        </exclusion>
-                    </exclusions>
-                </dependency>
-            </dependencies>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <suiteXmlFiles>
-                                <suiteXmlFile>src/test/tck20/tck-tests.xml</suiteXmlFile>
-                            </suiteXmlFiles>
-                            <excludedGroups>javaee-full,se</excludedGroups>
-                            <dependenciesToScan>
-                                <dependency>jakarta.enterprise:cdi-tck-core-impl</dependency>
-                                <dependency>jakarta.enterprise:cdi-tck-web-impl</dependency>
-                            </dependenciesToScan>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-
         <profile>
             <id>platform</id>
 
@@ -446,7 +405,8 @@
                             <excludedGroups>se</excludedGroups>
                             <dependenciesToScan>
                                 <dependency>jakarta.enterprise:cdi-tck-core-impl</dependency>
-                                <dependency>jakarta.enterprise:cdi-tck-web-impl</dependency>
+                                <!-- Removed because the web module was relocated to another tck project -->
+                                <!--dependency>jakarta.enterprise:cdi-tck-web-impl</dependency-->
                             </dependenciesToScan>
                         </configuration>
                     </plugin>
@@ -460,7 +420,7 @@
             <dependencies>
                 <dependency>
                     <groupId>org.glassfish.jersey.inject</groupId>
-                    <artifactId></artifactId>
+                    <artifactId>jersey-hk2</artifactId>
                     <version>${jersey-hk2.version}</version>
                 </dependency>
                 <dependency>
