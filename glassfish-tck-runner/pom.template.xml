@@ -347,6 +347,8 @@
                 <configuration>
                     <!-- Disable annotation processor for test sources -->
                     <testCompilerArgument>-proc:none</testCompilerArgument>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
         </plugins>
